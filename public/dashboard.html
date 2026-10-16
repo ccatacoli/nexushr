@@ -1,0 +1,606 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NexusHR — Panel</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="app">
+      <!-- ── Sidebar ─────────────────────────────────────────────────────── -->
+      <aside class="sidebar">
+        <div class="sidebar-logo">
+          <svg viewBox="0 0 44 44" fill="none">
+            <rect
+              width="44"
+              height="44"
+              rx="10"
+              fill="rgba(255,255,255,0.12)"
+            />
+            <path
+              d="M12 30V14h6l4 10 4-10h6v16h-4V20l-4 10h-4l-4-10v10h-4z"
+              fill="white"
+            />
+          </svg>
+          <span>NexusHR</span>
+        </div>
+
+        <nav class="sidebar-nav">
+          <div class="sidebar-section">Principal</div>
+          <button class="nav-item active" data-section="overview">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <rect x="3" y="3" width="7" height="7" rx="1" />
+              <rect x="14" y="3" width="7" height="7" rx="1" />
+              <rect x="3" y="14" width="7" height="7" rx="1" />
+              <rect x="14" y="14" width="7" height="7" rx="1" />
+            </svg>
+            Resumen
+          </button>
+          <button class="nav-item" data-section="employees">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+              <circle cx="9" cy="7" r="4" />
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+              <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+            </svg>
+            Empleados
+          </button>
+          <button class="nav-item" data-section="announcements">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+              <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+            </svg>
+            Comunicados
+          </button>
+          <button class="nav-item" data-section="leave">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+              <line x1="16" y1="2" x2="16" y2="6" />
+              <line x1="8" y1="2" x2="8" y2="6" />
+              <line x1="3" y1="10" x2="21" y2="10" />
+            </svg>
+            Ausencias
+          </button>
+          <button class="nav-item" data-section="payroll">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <line x1="12" y1="1" x2="12" y2="23" />
+              <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+            </svg>
+            Nóminas
+          </button>
+
+          <div class="sidebar-section" id="adminSection" style="display: none">
+            Administración
+          </div>
+          <button
+            class="nav-item"
+            data-section="admin"
+            id="adminNav"
+            style="display: none"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+            </svg>
+            Panel Admin
+          </button>
+        </nav>
+
+        <div class="sidebar-user">
+          <div class="user-avatar" id="sidebarAvatar">?</div>
+          <div class="sidebar-user-info">
+            <strong id="sidebarName">—</strong>
+            <span id="sidebarRole">—</span>
+          </div>
+          <button class="logout-btn" id="logoutBtn" title="Cerrar sesión">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+              <polyline points="16 17 21 12 16 7" />
+              <line x1="21" y1="12" x2="9" y2="12" />
+            </svg>
+          </button>
+        </div>
+      </aside>
+
+      <!-- ── Main ────────────────────────────────────────────────────────── -->
+      <main class="main">
+        <div class="topbar">
+          <span class="topbar-title" id="topbarTitle">Resumen</span>
+          <div class="search-bar">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <circle cx="11" cy="11" r="8" />
+              <line x1="21" y1="21" x2="16.65" y2="16.65" />
+            </svg>
+            <input
+              type="text"
+              id="globalSearch"
+              placeholder="Buscar empleados…"
+            />
+          </div>
+          <span
+            id="topbarDate"
+            style="font-size: 0.82rem; color: var(--text-2)"
+          ></span>
+        </div>
+
+        <div class="content">
+          <!-- ── Overview ──────────────────────────────────────────────── -->
+          <div class="section active" id="sec-overview">
+            <div class="page-header">
+              <h1 id="welcomeMsg">Bienvenido</h1>
+              <p>Aquí tienes un resumen de la actividad de hoy</p>
+            </div>
+
+            <div class="stats-grid" id="statsGrid">
+              <div class="stat-card">
+                <div class="stat-card-header">
+                  <span class="stat-label">Empleados activos</span>
+                  <div class="stat-icon indigo">
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                      <circle cx="9" cy="7" r="4" />
+                      <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                      <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                    </svg>
+                  </div>
+                </div>
+                <div class="stat-value" id="statEmployees">—</div>
+                <div class="stat-delta">↑ 2 este mes</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-card-header">
+                  <span class="stat-label">Salario medio</span>
+                  <div class="stat-icon green">
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <line x1="12" y1="1" x2="12" y2="23" />
+                      <path
+                        d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"
+                      />
+                    </svg>
+                  </div>
+                </div>
+                <div class="stat-value" id="statSalary">—</div>
+                <div class="stat-delta">↑ 3.2% vs año anterior</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-card-header">
+                  <span class="stat-label">Ausencias pendientes</span>
+                  <div class="stat-icon amber">
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"
+                      />
+                      <line x1="12" y1="9" x2="12" y2="13" />
+                      <line x1="12" y1="17" x2="12.01" y2="17" />
+                    </svg>
+                  </div>
+                </div>
+                <div class="stat-value" id="statLeave">—</div>
+                <div class="stat-delta">Requieren aprobación</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-card-header">
+                  <span class="stat-label">Departamentos</span>
+                  <div class="stat-icon cyan">
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <polygon points="12 2 2 7 12 12 22 7 12 2" />
+                      <polyline points="2 17 12 22 22 17" />
+                      <polyline points="2 12 12 17 22 12" />
+                    </svg>
+                  </div>
+                </div>
+                <div class="stat-value" id="statDepts">—</div>
+                <div class="stat-delta">En toda la empresa</div>
+              </div>
+            </div>
+
+            <div class="grid-2">
+              <div class="card">
+                <div class="card-header">
+                  <div>
+                    <div class="card-title">Comunicados recientes</div>
+                    <div class="card-subtitle">
+                      Últimas novedades del equipo
+                    </div>
+                  </div>
+                </div>
+                <div class="card-body" id="announcementsPreview">
+                  <div class="spinner"></div>
+                </div>
+              </div>
+
+              <div class="card">
+                <div class="card-header">
+                  <div>
+                    <div class="card-title">Solicitudes de ausencia</div>
+                    <div class="card-subtitle">Pendientes de revisión</div>
+                  </div>
+                </div>
+                <div class="card-body" id="leavePreview">
+                  <div class="spinner"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ── Employees ──────────────────────────────────────────────── -->
+          <div class="section" id="sec-employees">
+            <div class="page-header">
+              <h1>Directorio de empleados</h1>
+              <p>Consulta y gestiona el equipo de tu organización</p>
+            </div>
+
+            <div class="card" style="margin-bottom: 1.25rem">
+              <div class="card-body" style="padding: 1rem 1.5rem">
+                <div style="display: flex; gap: 0.75rem; align-items: center">
+                  <div
+                    style="
+                      flex: 1;
+                      display: flex;
+                      align-items: center;
+                      gap: 0.5rem;
+                      background: var(--surface-2);
+                      border: 1.5px solid var(--border);
+                      border-radius: 8px;
+                      padding: 0.5rem 0.875rem;
+                    "
+                  >
+                    <svg
+                      style="width: 16px; height: 16px; color: var(--text-3)"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <circle cx="11" cy="11" r="8" />
+                      <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                    </svg>
+                    <input
+                      type="text"
+                      id="empSearch"
+                      placeholder="Buscar por nombre, email o departamento…"
+                      style="
+                        border: none;
+                        background: none;
+                        outline: none;
+                        font-size: 0.9rem;
+                        width: 100%;
+                        font-family: inherit;
+                        color: var(--text);
+                      "
+                    />
+                  </div>
+                  <button
+                    class="btn btn-primary btn-sm"
+                    onclick="runEmpSearch()"
+                  >
+                    Buscar
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">Resultados</div>
+              </div>
+              <div id="empSearchResults">
+                <div class="card-body">
+                  <p style="color: var(--text-2); font-size: 0.875rem">
+                    Introduce un término para buscar empleados.
+                  </p>
+                </div>
+              </div>
+              <div class="table-wrap" id="empTable" style="display: none">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Nombre</th>
+                      <th>Email</th>
+                      <th>Departamento</th>
+                      <th>Rol</th>
+                    </tr>
+                  </thead>
+                  <tbody id="empTableBody"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- ── Announcements ──────────────────────────────────────────── -->
+          <div class="section" id="sec-announcements">
+            <div class="page-header">
+              <h1>Comunicados internos</h1>
+              <p>Mantén al equipo informado de las últimas novedades</p>
+            </div>
+            <div class="card">
+              <div class="card-body" id="announcementsFull">
+                <div class="spinner"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ── Leave ──────────────────────────────────────────────────── -->
+          <div class="section" id="sec-leave">
+            <div class="page-header">
+              <h1>Gestión de ausencias</h1>
+              <p>Solicita y revisa permisos y días de vacaciones</p>
+            </div>
+            <div class="grid-2">
+              <div class="card">
+                <div class="card-header">
+                  <div class="card-title">Nueva solicitud</div>
+                </div>
+                <div class="card-body">
+                  <div id="leaveMsg"></div>
+                  <form id="leaveForm">
+                    <div class="form-group">
+                      <label>Fecha de inicio</label>
+                      <input type="date" id="leaveStart" required />
+                    </div>
+                    <div class="form-group">
+                      <label>Fecha de fin</label>
+                      <input type="date" id="leaveEnd" required />
+                    </div>
+                    <div class="form-group">
+                      <label>Motivo</label>
+                      <textarea
+                        id="leaveReason"
+                        rows="3"
+                        placeholder="Describe el motivo de la ausencia…"
+                        style="resize: vertical"
+                      ></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                      Enviar solicitud
+                    </button>
+                  </form>
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-header">
+                  <div class="card-title">Solicitudes</div>
+                </div>
+                <div class="table-wrap">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Empleado</th>
+                        <th>Período</th>
+                        <th>Estado</th>
+                      </tr>
+                    </thead>
+                    <tbody id="leaveTableBody"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ── Payroll ────────────────────────────────────────────────── -->
+          <div class="section" id="sec-payroll">
+            <div class="page-header">
+              <h1>Nóminas y retribución</h1>
+              <p>Consulta salarios y calcula retenciones o bonus</p>
+            </div>
+            <div class="grid-2">
+              <div class="card">
+                <div class="card-header">
+                  <div class="card-title">Resumen salarial</div>
+                </div>
+                <div class="table-wrap">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Empleado</th>
+                        <th>Departamento</th>
+                        <th>Salario bruto</th>
+                      </tr>
+                    </thead>
+                    <tbody id="payrollTableBody"></tbody>
+                  </table>
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-header">
+                  <div>
+                    <div class="card-title">Calculadora de nómina</div>
+                    <div class="card-subtitle">
+                      Introduce una expresión para calcular retenciones, bonus,
+                      etc.
+                    </div>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <div class="calc-display">
+                    <div class="calc-expr" id="calcExpr">— sin cálculo —</div>
+                    <div class="calc-result" id="calcResult"></div>
+                    <div class="calc-error hidden" id="calcError"></div>
+                  </div>
+                  <div class="calc-input">
+                    <input
+                      type="text"
+                      id="calcFormula"
+                      placeholder="ej: 52000 * 0.85 - 1200"
+                      class="form-group"
+                      style="margin: 0"
+                    />
+                    <button class="btn btn-primary btn-sm" onclick="runCalc()">
+                      Calcular
+                    </button>
+                  </div>
+                  <div class="calc-presets">
+                    <span
+                      style="
+                        font-size: 0.78rem;
+                        color: var(--text-2);
+                        align-self: center;
+                        margin-right: 0.25rem;
+                      "
+                      >Ejemplos:</span
+                    >
+                    <button
+                      class="preset-btn"
+                      onclick="setPreset('salary * 0.84')"
+                    >
+                      IRPF 16%
+                    </button>
+                    <button
+                      class="preset-btn"
+                      onclick="setPreset('salary * 1.15')"
+                    >
+                      Bonus 15%
+                    </button>
+                    <button
+                      class="preset-btn"
+                      onclick="setPreset('salary / 12')"
+                    >
+                      Mensual
+                    </button>
+                    <button
+                      class="preset-btn"
+                      onclick="setPreset('(salary + 5000) * 0.72')"
+                    >
+                      Neto estimado
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ── Admin ──────────────────────────────────────────────────── -->
+          <div class="section" id="sec-admin">
+            <div class="page-header">
+              <h1>Panel de administración</h1>
+              <p>Gestión avanzada de usuarios y configuración del sistema</p>
+            </div>
+            <div class="tabs">
+              <button class="tab-btn active" data-tab="users">
+                Usuarios del sistema
+              </button>
+              <button class="tab-btn" data-tab="config">Configuración</button>
+            </div>
+
+            <div id="tab-users">
+              <div class="card">
+                <div class="card-header">
+                  <div class="card-title">Todos los usuarios</div>
+                </div>
+                <div class="table-wrap">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Email</th>
+                        <th>Rol</th>
+                        <th>Departamento</th>
+                        <th>Salario</th>
+                        <th>NSS</th>
+                        <th>Cuenta bancaria</th>
+                      </tr>
+                    </thead>
+                    <tbody id="adminUsersBody"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <div id="tab-config" style="display: none">
+              <div class="card">
+                <div class="card-header">
+                  <div class="card-title">Configuración del entorno</div>
+                </div>
+                <div class="card-body">
+                  <pre
+                    id="configDisplay"
+                    style="
+                      background: #0f172a;
+                      color: #e2e8f0;
+                      padding: 1.25rem;
+                      border-radius: 8px;
+                      font-size: 0.8rem;
+                      font-family: &quot;JetBrains Mono&quot;, monospace;
+                      overflow-x: auto;
+                      line-height: 1.7;
+                    "
+                  ></pre>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /content -->
+      </main>
+    </div>
+    <!-- /app -->
+
+    <script src="app.js"></script>
+  </body>
+</html>

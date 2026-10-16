@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NexusHR — Iniciar sesión</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="login-page">
+      <!-- Brand panel -->
+      <div class="login-brand">
+        <div class="brand-logo">
+          <svg
+            viewBox="0 0 44 44"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <rect
+              width="44"
+              height="44"
+              rx="12"
+              fill="rgba(255,255,255,0.15)"
+            />
+            <path
+              d="M12 30V14h6l4 10 4-10h6v16h-4V20l-4 10h-4l-4-10v10h-4z"
+              fill="white"
+            />
+          </svg>
+          <span>NexusHR</span>
+        </div>
+        <h1 class="brand-tagline">Gestión de talento<br />sin fricciones</h1>
+        <p class="brand-sub">
+          La plataforma todo-en-uno para equipos de RRHH modernos. Nóminas,
+          ausencias, onboarding y más.
+        </p>
+        <div class="brand-badges">
+          <span class="brand-badge">✦ ISO 27001</span>
+          <span class="brand-badge">✦ RGPD Compliant</span>
+          <span class="brand-badge">✦ SOC 2 Type II</span>
+        </div>
+      </div>
+
+      <!-- Form panel -->
+      <div class="login-form-panel">
+        <div class="login-form-wrap">
+          <h2>Bienvenido de nuevo</h2>
+          <p class="subtitle">
+            Introduce tus credenciales para acceder al panel
+          </p>
+
+          <div id="loginError" class="alert alert-error hidden"></div>
+
+          <form id="loginForm">
+            <div class="form-group">
+              <label for="email">Correo electrónico</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="tu@empresa.com"
+                autocomplete="email"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="password">Contraseña</label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="••••••••"
+                autocomplete="current-password"
+                required
+              />
+            </div>
+            <button type="submit" class="btn btn-primary" id="loginBtn">
+              Iniciar sesión
+            </button>
+          </form>
+
+          <div class="login-hint">
+            <strong>Acceso de demostración</strong>
+            Admin: <code>ana@nexushr.com</code> / <code>admin123</code><br />
+            Empleado: <code>maria@nexushr.com</code> / <code>maria2024</code>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document
+        .getElementById("loginForm")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const btn = document.getElementById("loginBtn");
+          const errEl = document.getElementById("loginError");
+          errEl.classList.add("hidden");
+          btn.disabled = true;
+          btn.innerHTML = '<span class="spinner"></span>';
+
+          const email = document.getElementById("email").value;
+          const password = document.getElementById("password").value;
+
+          try {
+            const res = await fetch("/api/auth/login", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ email, password }),
+            });
+            const data = await res.json();
+
+            if (!res.ok) {
+              errEl.textContent = data.error || "Error al iniciar sesión.";
+              errEl.classList.remove("hidden");
+              return;
+            }
+
+            localStorage.setItem("nexushr_token", data.token);
+            localStorage.setItem("nexushr_user", JSON.stringify(data.user));
+            window.location.href = "/dashboard.html";
+          } catch {
+            errEl.textContent = "Error de conexión. Inténtalo de nuevo.";
+            errEl.classList.remove("hidden");
+          } finally {
+            btn.disabled = false;
+            btn.innerHTML = "Iniciar sesión";
+          }
+        });
+    </script>
+  </body>
+</html>
